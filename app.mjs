@@ -1,50 +1,84 @@
-//app.mjs
-//we are in ES6, use this. 
+// app.mjs
+// we are in ES6, use this.
 import express from 'express';
 import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
-// import * as fs from 'node:fs';
 
 const app = express();
+
+// ES module equivalents of __dirname / __filename
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
-// const files = fs.readFile('.');
-// let myVar = 'demo purposes only';
 
-// middlewares aka endpoints aka 'get to slash' {http verb} to slash {you name ur endpoint}
+/* =========================
+   GLOBAL MIDDLEWARE
+========================= */
+
+// parse JSON bodies
+app.use(express.json());
+
+// parse form data
+app.use(express.urlencoded({ extended: true }));
+
+// serve static files (css, js, images, etc.)
+app.use(express.static(join(__dirname, 'public')));
+
+/* =========================
+   ROUTES
+========================= */
+
+// home route
 app.get('/', (req, res) => {
-  //res.send('Hello Express'); //string response
-  //res.sendFile('index.html'); // <- this don't work w/o imports, assign, and arguements
-  res.sendFile(join(__dirname, 'public', 'index.html')) ;
-
-})
-
-// app.get('/inject', (req, res) => {
-//   // Inject a server variable into barry.html
-//   fs.files(join(__dirname, 'public', 'index.html'), 'utf8')
-//     .then(html => {
-//       // Replace a placeholder in the HTML (e.g., {{myVar}})
-//       const injectedHtml = html.replace('{{myVar}}', myVar);
-//       res.send(injectedHtml);
-//     })
-//     .catch(err => {
-//       res.status(500).send('Error loading page');
-//     });
-// })
-  
-
-app.get('/json', (req, res) =>{
-  const myVar = 'Hello from server!';
-  res.json({ myVar });
-})
-
-app.get('/api/query', (req, res) => {
-
-  console.log("client request with query param:", req.query.name); 
-  res.json({"name": req.query.name});
+  res.sendFile(join(__dirname, 'public', 'index.html'));
 });
 
-//start the server. 
-app.listen(3000, () => {
-  console.log('Server is running on http://localhost:3000')
-})
+// simple JSON response
+app.get('/json', (req, res) => {
+  const myVar = 'Hello from server!';
+  res.json({ myVar });
+});
+
+// query param example
+// /api/query?name=Barry
+app.get('/api/query', (req, res) => {
+  console.log('client request with query param:', req.query.name);
+  res.json({ name: req.query.name });
+});
+
+// POST example (JSON or form)
+app.post('/api/data', (req, res) => {
+  console.log('POST body:', req.body);
+  res.json({
+    status: 'success',
+    received: req.body
+  });
+});
+
+/* =========================
+   ERROR HANDLING
+========================= */
+
+// server error handler
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).json({
+    error: 'Something went wrong on the server'
+  });
+});
+
+// 404 handler (must be last)
+app.use((req, res) => {
+  res.status(404).json({
+    error: 'Route not found'
+  });
+});
+
+/* =========================
+   START SERVER
+========================= */
+
+const PORT = process.env.PORT || 3000;
+
+app.listen(PORT, () => {
+  console.log(`Server is running on http://localhost:${PORT}`);
+});
