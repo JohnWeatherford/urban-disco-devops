@@ -8,15 +8,10 @@
 </head>
 
 <body>
+  <h1>welcome to my devOps pages. </h1>
+  <p>{{myVar}}</p>
+  <a href="/api/json">json</a>
 
-  <h1>Welcome to my DevOps page</h1>
-
-  <!-- Server JSON output -->
-  <p id="serverVar">Loading server message...</p>
-
-  <hr>
-
-  <!-- QUERY PARAM -->
   <div>
     <h3>Query Parameter</h3>
     <input id="queryName" type="text" placeholder="Enter name">
@@ -24,9 +19,14 @@
     <div id="queryResult"></div>
   </div>
 
-  <hr>
+  <div>
+    <h3>URL Parameter</h3>
+    <input id="urlId" type="text" placeholder="Enter id">
+    <button onclick="sendUrl()">Send URL Param</button>
+    <div id="urlResult"></div>
+  </div>
 
-  <!-- POST BODY -->
+
   <div>
     <h3>POST Body</h3>
     <input id="bodyName" type="text" placeholder="Enter name">
@@ -35,52 +35,44 @@
   </div>
 
   <script>
-    /* =========================
-       FETCH SIMPLE JSON
-    ========================= */
-
-    fetch('/json')
-      .then(res => res.json())
+    fetch('/api/json')
+      .then(response => response.json())
       .then(data => {
-        document.getElementById('serverVar').textContent =
-          `Server says: ${data.myVar}`;
+        document.body.innerHTML += `<p>API says: ${data.myVar}</p>`;
       })
-      .catch(() => {
-        document.getElementById('serverVar').textContent =
-          'Error fetching server data';
+      .catch(err => {
+        document.body.innerHTML += `<p>Error fetching API</p>`;
       });
 
-    /* =========================
-       QUERY PARAM
-    ========================= */
-
+    
     function sendQuery() {
       const name = document.getElementById('queryName').value;
-
-      fetch(`/api/query?name=${encodeURIComponent(name)}`)
+      fetch(`/api/query?name=${encodeURIComponent(name)}`) //<255 characters. 
         .then(res => res.json())
         .then(data => {
-          document.getElementById('queryResult').textContent =
-            `Query result: ${data.name}`;
+          document.getElementById('queryResult').textContent = data.message;
         });
     }
 
-    /* =========================
-       POST BODY
-    ========================= */
+    function sendUrl() {
+      const id = document.getElementById('urlId').value;
+      fetch(`/api/url/${encodeURIComponent(id)}`)
+        .then(res => res.json())
+        .then(data => {
+          document.getElementById('urlResult').textContent = data.message;
+        });
+    }
 
     function sendBody() {
       const name = document.getElementById('bodyName').value;
-
-      fetch('/api/data', {
+      fetch('/api/body', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ name })
       })
         .then(res => res.json())
         .then(data => {
-          document.getElementById('bodyResult').textContent =
-            `POST result: ${data.received.name}`;
+          document.getElementById('bodyResult').textContent = data.message;
         });
     }
   </script>
