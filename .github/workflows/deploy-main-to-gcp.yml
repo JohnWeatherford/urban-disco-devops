@@ -16,7 +16,7 @@ jobs:
           mkdir -p ~/.ssh
           chmod 700 ~/.ssh
 
-          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_ed25519
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
 
           # safer than StrictHostKeyChecking=no
@@ -31,7 +31,7 @@ jobs:
           APP_DIR:  ${{ vars.APP_DIR }}
           PM2_NAME: app # ${{ vars.PM2_NAME }}
         run: |
-          ssh -i ~/.ssh/id_ed25519 -T "$SSH_HOST" <<EOF
+          ssh -i ~/.ssh/id_rsa -T "$SSH_HOST" <<EOF
             set -e
 
             cd "$APP_DIR"
