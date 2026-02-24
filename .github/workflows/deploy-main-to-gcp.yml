@@ -34,7 +34,7 @@ jobs:
           ssh -i ~/.ssh/id_rsa -T "$SSH_HOST" <<EOF
             set -e
 
-            cd "~/$APP_DIR"
+            cd ~/$APP_DIR
 
             git pull
             sudo npm ci
