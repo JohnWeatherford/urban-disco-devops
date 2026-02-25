@@ -1,7 +1,7 @@
 name:  pushin
 # Trigger this workflow on pushes to the specified branch
 on:
-  <push>:
+  push:
     branches:
       - main
 jobs:
