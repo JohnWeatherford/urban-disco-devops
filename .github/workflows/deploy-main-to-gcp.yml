@@ -1,46 +1,24 @@
-name: deploy-main-to-gcp.yml
+- name: Deploy over SSH
+  shell: bash
+  env:
+    SSH_USER: ${{ secrets.SSH_USER }}
+    SSH_HOST: ${{ secrets.SSH_HOST }}
+    APP_DIR:  ${{ vars.APP_DIR }}
+    PM2_NAME: app
+  run: |
+    ssh -i ~/.ssh/id_rsa -T "$SSH_USER@$SSH_HOST" <<EOF
+      set -e
 
-on:
-  push:
-    branches: [main]
-  workflow_dispatch:
+      cd ~/"$APP_DIR"
 
-jobs:
-  deploy:
-    runs-on: ubuntu-latest
+      # 🔥 Fix Git dubious ownership ON REMOTE VM
+      git config --global --add safe.directory \$(pwd)
 
-    steps:
-      - name: Prepare SSH
-        shell: bash
-        run: |
-          mkdir -p ~/.ssh
-          chmod 700 ~/.ssh
+      git pull
+      sudo npm ci
 
-          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
-          chmod 600 ~/.ssh/id_rsa
+      pm2 delete "$PM2_NAME" || true
+      pm2 start -f app.mjs --name "$PM2_NAME"
 
-          # safer than StrictHostKeyChecking=no
-          ssh-keyscan -H "${{ secrets.SSH_HOST }}" >> ~/.ssh/known_hosts
-          chmod 644 ~/.ssh/known_hosts
-
-      - name: Deploy over SSH
-        shell: bash
-        env:
-          SSH_USER: ${{ secrets.SSH_USER }}
-          SSH_HOST: ${{ secrets.SSH_HOST }}
-          APP_DIR:  ${{ vars.APP_DIR }}
-          PM2_NAME: app # ${{ vars.PM2_NAME }}
-        run: |
-          ssh -i ~/.ssh/id_rsa -T "$SSH_HOST" <<EOF
-            set -e
-
-            cd ~/"$APP_DIR"
-
-            git pull
-            sudo npm ci
-
-            pm2 delete "$PM2_NAME" || true
-            pm2 start -f app.mjs --name "$PM2_NAME"
-
-            pm2 save
-          EOF
+      pm2 save
+    EOF
