@@ -23,7 +23,7 @@ app.use(express.json());
 
 
 
-// Create a Mo ngoClient with a MongoClientOptions  object to  set the Stable A PI version 
+// Create a Mo ngoClient with a Mo ngoClientOptions  object to  set the Stable A PI version 
 const client = new MongoClient(uri, {
   serverApi: {
     version: ServerApiVersion.v1,
