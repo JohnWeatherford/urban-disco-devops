@@ -1,25 +1,20 @@
 {
   "name": "urban-disco-devops",
   "version": "1.0.0",
-  "description": "",
-  "main": "app.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+  "description": "External IP: http://34.186.8.131/",
+  "homepage": "https://github.com/JohnWeatherford/urban-disco-devops#readme",
+  "bugs": {
+    "url": "https://github.com/JohnWeatherford/urban-disco-devops/issues"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/JohnWeatherford/urban-disco-devops.git"
   },
-  "keywords": [],
-  "author": "",
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/JohnWeatherford/urban-disco-devops/issues"
-  },
-  "homepage": "https://github.com/JohnWeatherford/urban-disco-devops#readme",
-  "dependencies": {
-    "dotenv": "^17.2.3",
-    "express": "^5.2.1",
-    "mongodb": "^7.0.0"
+  "author": "",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
   }
 }
