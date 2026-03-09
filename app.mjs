@@ -43,7 +43,7 @@ app.get('/api/projects', async (req, res) => {
 });
 
 // Endpoint to populate MongoDB with starter data
-<<<<<<< HEAD
+
 app.get('/api/populate-projects', async (req, res) => {
   try {
     const db = client.db('cis486');
@@ -106,7 +106,7 @@ app.get('/api/populate-projects', async (req, res) => {
   res.sendFile(join(__dirname, 'public', 'populate-projects.html'));
 })
 
->>>>>>> 400debc (new code)
+// debc (new code)
 app.listen(3000, () => {
   console.log('Server is running on http://localhost:3000')
 })
