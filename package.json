@@ -1,22 +1,28 @@
 {
-  "name": "urban-disco-devops",
+  "name": "literate-fortnight-yar",
   "version": "1.0.0",
-  "description": "External IP: http://34.186.8.131/",
-  "homepage": "https://github.com/JohnWeatherford/urban-disco-devops#readme",
-  "bugs": {
-    "url": "https://github.com/JohnWeatherford/urban-disco-devops/issues"
+  "description": "Cumbie full rebuild of devops ci/cd",
+  "main": "app.mjs",
+  "scripts": {
+    "dev": "nodemon app.mjs",
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/JohnWeatherford/urban-disco-devops.git"
+    "url": "git+https://github.com/barrycumbie/literate-fortnight-yar.git"
   },
-  "license": "ISC",
+  "keywords": [],
   "author": "",
-  "type": "module",
-  "main": "server.js",
-  "scripts": {
-    "dev": "nodemon server.js",
-    "start": "node server.js",
-    "test": "echo \"No tests specified\""
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/barrycumbie/literate-fortnight-yar/issues"
+  },
+  "homepage": "https://github.com/barrycumbie/literate-fortnight-yar#readme",
+  "dependencies": {
+    "dotenv": "^17.3.1",
+    "express": "^5.2.1",
+    "mongodb": "^7.1.0",
+    "nodemon": "^3.1.14"
   }
 }
