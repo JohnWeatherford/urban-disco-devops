@@ -28,7 +28,7 @@ app.get('/', (req, res) => {
 // READ - Get all projects 
 app.get('/api/projects', async (req, res) => {
   try {
-    const db = client.db('johnweatherford');
+    const db = client.db('cis486');
     const collection = db.collection('projects');
 
     const records = await collection.find({}).toArray();
@@ -43,7 +43,7 @@ app.get('/api/projects', async (req, res) => {
 // Endpoint to populate MongoDB with starter data
 app.get('/api/populate-projects', async (req, res) => {
   try {
-    const db = client.db('johnweatherford');
+    const db = client.db('cis486');
     const collection = db.collection('projects');
 
     const starterData = [
