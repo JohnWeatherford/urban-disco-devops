@@ -21,7 +21,7 @@ const client = new MongoClient(uri, {
 
 // middlewares aka endpoints aka 'get to slash' {http verb} to slash {you name ur endpoint}
 app.get('/', (req, res) => {
-  res.sendFile(join(__dirname, 'public', 'projects(1).html'));
+  res.sendFile(join(__dirname, 'public', 'projects.html'));
 
 })
 
