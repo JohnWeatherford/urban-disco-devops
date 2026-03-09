@@ -1,46 +1,32 @@
-name: deploy-main-to-gcp.yml
-
+name:  pushin
+# Trigger this workflow on pushes to the specified branch
 on:
   push:
-    branches: [main]
-  workflow_dispatch:
-
+    branches:
+      - main
 jobs:
   deploy:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-latest # Run this job on the latest Ubuntu version
 
     steps:
-      - name: Prepare SSH
-        shell: bash
-        run: |
-          mkdir -p ~/.ssh
-          chmod 700 ~/.ssh
-
-          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
-          chmod 600 ~/.ssh/id_rsa
-
-          # safer than StrictHostKeyChecking=no
-          ssh-keyscan -H "${{ secrets.SSH_HOST }}" >> ~/.ssh/known_hosts
-          chmod 644 ~/.ssh/known_hosts
-
-      - name: Deploy over SSH
-        shell: bash
+      - name: pushinagain
         env:
+          PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }} # Reference the private key stored in GitHub Secrets
           SSH_USER: ${{ secrets.SSH_USER }}
           SSH_HOST: ${{ secrets.SSH_HOST }}
-          APP_DIR:  ${{ vars.APP_DIR }}
-          PM2_NAME: app # ${{ vars.PM2_NAME }}
         run: |
-          ssh -i ~/.ssh/id_rsa -T "$SSH_USER@$SSH_HOST" <<EOF
-            set -e
+          echo "$PRIVATE_KEY" > private_key.pem # Write the private key to a file
+          chmod 600 private_key.pem # Set the appropriate permissions for the key file
 
-            cd "$APP_DIR"
-
-            git pull
-            sudo npm ci
-
-            pm2 delete "$PM2_NAME" || true
-            pm2 start -f app.mjs --name "$PM2_NAME"
-
-            pm2 save
+          # Establish an SSH connection and execute commands on the remote server
+          ssh -o StrictHostKeyChecking=no -i private_key.pem -tt $SSH_USER@$SSH_HOST <<EOF  
+            # Here Document, allows for multiple commands while connected to server 
+            cd urban-disco-devops #go to repo  
+            npm ci
+            pm2 delete app #in case the website is currently running
+            git pull #update repo
+            pm2 start app.mjs #start the updated app
+            exit  
           EOF
+
+          rm -f private_key.pem # Remove the private key file after use for security
