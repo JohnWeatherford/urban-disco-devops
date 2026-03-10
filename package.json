@@ -1,7 +1,7 @@
 {
-  "name": "literate-fortnight-yar",
+  "name": "urban-disco-devops",
   "version": "1.0.0",
-  "description": "Cumbie full rebuild of devops ci/cd",
+  "description": "John's full rebuild of devops ci/cd",
   "main": "app.mjs",
   "scripts": {
     "dev": "nodemon app.mjs",
@@ -9,16 +9,16 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/barrycumbie/literate-fortnight-yar.git"
+    "url": "git+https://github.com/JohnWeatherford/urban-disco-devops.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "type": "commonjs",
   "bugs": {
-    "url": "https://github.com/barrycumbie/literate-fortnight-yar/issues"
+    "url": "https://github.com/JohnWeatherford/urban-disco-devops/issues"
   },
-  "homepage": "https://github.com/barrycumbie/literate-fortnight-yar#readme",
+  "homepage": "https://github.com/JohnWeatherford/urban-disco-devops#readme",
   "dependencies": {
     "dotenv": "^17.3.1",
     "express": "^5.2.1",
