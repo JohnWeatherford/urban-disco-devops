@@ -8,7 +8,11 @@ import { MongoClient, ServerApiVersion, ObjectId } from 'mongodb';
 const app = express();
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
+
 const uri = process.env.MONGO_URI;
+
+app.use(express.static(join(__dirname, 'public')));
+app.use(express.json());
 
 const client = new MongoClient(uri, {
   serverApi: {
@@ -17,6 +21,10 @@ const client = new MongoClient(uri, {
     deprecationErrors: true,
   }
 });
+
+// CONNECT TO MONGODB
+await client.connect();
+console.log("Connected to MongoDB");
 
 
 // middlewares aka endpoints aka 'get to slash' {http verb} to slash {you name ur endpoint}
