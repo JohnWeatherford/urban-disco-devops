@@ -30,7 +30,7 @@ app.get('/', (req, res) => {
 app.get('/api/projects', async (req, res) => {
   try {
     const db = client.db('cis486');
-    const collection = db.collection('projects');
+    const collection = db.collection('attendance');
 
     const records = await collection.find({}).toArray();
 
@@ -47,7 +47,7 @@ app.get('/api/projects', async (req, res) => {
 app.get('/api/populate-projects', async (req, res) => {
   try {
     const db = client.db('cis486');
-    const collection = db.collection('projects');
+    const collection = db.collection('attendance');
 
     const starterData = [
       {
