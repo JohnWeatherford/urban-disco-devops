@@ -43,7 +43,9 @@ app.get('/api/projects', async (req, res) => {
     const records = await collection.find({}).toArray();
 
 
+
     res.json(records);
+
   } catch (error) {
     console.error('Error reading attendance:', error);
     res.status(500).json({ error: 'Failed to get attendance records' });
@@ -103,7 +105,8 @@ app.get('/api/populate-projects', async (req, res) => {
     ]
 
     const result = await collection.insertMany(starterData);
-    res.status(200).json({ message: 'Projects populated successfully', insertedCount: result.insertedCount });
+
+    //res.status(200).json({ message: 'Projects populated successfully', insertedCount: result.insertedCount });
   } catch (error) {
     console.error('Error populating projects:', error);
     res.status(500).json({ error: 'Failed to populate projects' });
